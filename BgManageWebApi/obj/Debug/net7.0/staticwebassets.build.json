@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "+0499Z/nOqL1a86bLiCZ2ribBKEHKNrLBH1mkQuiIvA=",
+  "Source": "BgManageWebApi",
+  "BasePath": "_content/BgManageWebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
