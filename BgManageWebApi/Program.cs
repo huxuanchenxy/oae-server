@@ -15,6 +15,10 @@ builder.AddSwaggerExtend();
 builder.InitSqlSugar();  
 builder.Services.AddAutoMapper(typeof(AutoMapperConfigs)); 
 builder.Services.AddTransient<ITestService, TestService>();
+builder.Services.AddTransient<ICusModuleService, CusModuleService>();
+builder.Services.AddTransient<ISysFuncService, SysFuncService>();
+builder.Services.AddTransient<IFunctionsService, FunctionsService>();
+
 var app = builder.Build();
  // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())

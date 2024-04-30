@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace BusinessInterface
 {
-    public  interface ITestService:IBaseService
+    public interface IFunctionsService : IBaseService
     {
-        void Save(TestDto req);
+        List<FunctionsDto> GetFunctionsList(string lang = "");
+        void SaveFunctions(FunctionsDto dto);
     }
 }

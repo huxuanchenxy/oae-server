@@ -1,0 +1,261 @@
+[
+ {
+  "caption": "System Functions",
+  "en": "System Functions",
+  "zh": "系统函数",
+  "header": "folder",
+  "children": [
+   {
+    "caption": "GETTIME",
+    "en": "Get Current Time",
+    "zh": "获取当前时间",
+    "snippet": "${1:ull} = GETTIME();",
+    "meta": "ExtFunction",
+    "id": "df88da64-afa0-4049-af48-ae65c7bebf8d",
+    "user": "admin"
+   },
+   {
+    "caption": "SETTIME",
+    "en": "Set Current Time",
+    "zh": "设置当前时间",
+    "snippet": "SETTIME(${1:ull});",
+    "meta": "ExtFunction",
+    "id": "89961842-2a09-4de8-a114-9ad2c8278e43",
+    "user": "admin"
+   },
+   {
+    "caption": "EMITEO",
+    "en": "Trigger Output Event",
+    "zh": "触发输出事件",
+    "snippet": "EMITEO(${1:string_eo});",
+    "meta": "ExtFunction",
+    "id": "55fcd2d9-1e0c-4a99-928b-fe6a988d8aa0",
+    "user": "admin"
+   },
+   {
+    "caption": "LOGERROR",
+    "en": "Write Debug Info to Log File",
+    "zh": "写入调试信息",
+    "snippet": "LOGERROR(${1:string_data});",
+    "meta": "ExtFunction",
+    "id": "0f05e8ad-1a74-432f-a228-eebdb9406887",
+    "user": "admin"
+   },
+   {
+    "caption": "SYSTEM",
+    "en": "Print SYSTEM Information",
+    "zh": "打印（LOG）系统信息",
+    "snippet": "SYSTEM(${1:WSTRING data});",
+    "meta": "ExtFunction",
+    "id": "0e768cd1-7858-4073-b67c-c5b05d9313cc",
+    "user": "admin"
+   }
+  ]
+ },
+ {
+  "caption": "Conversion functions",
+  "en": "Conversion functions",
+  "zh": "转换函数",
+  "header": "folder",
+  "children": [
+   {
+    "caption": "INT_STR",
+    "en": "Integer to String",
+    "zh": "整数 转 字符串",
+    "snippet": "${1:WSTRING} = INT_TO_WSTRING(${2:DINT});",
+    "meta": "ExtFunction",
+    "id": "2aaf801e-cac6-4c62-9704-f267039baa5a",
+    "user": "admin"
+   },
+   {
+    "caption": "STR_INT",
+    "en": "String to Integer",
+    "zh": "字符串 转 整数",
+    "snippet": "${1:DINT} = WSTRING_TO_INT(${2:WSTRING});",
+    "meta": "ExtFunction",
+    "id": "9121fd17-bb7c-4fdd-a691-236bc69d18a7",
+    "user": "admin"
+   },
+   {
+    "caption": "DINT_STR",
+    "en": "双精度数 转 字符串",
+    "zh": "Double Integer 转 String",
+    "snippet": "${1:WSTRING} = DINT_TO_WSTRING(${2:dint});",
+    "meta": "ExtFunction",
+    "id": "1c263035-9997-4a67-818b-e4b67bf447a0",
+    "user": "admin"
+   },
+   {
+    "caption": "STR_DINT",
+    "en": "String to Double Integer",
+    "zh": "字符串 转 双精度数",
+    "snippet": "${1:dint} = WSTRING_TO_DINT(${2:WSTRING});",
+    "meta": "ExtFunction",
+    "id": "35c3ecc1-92c3-473d-baab-373c7ea327b2",
+    "user": "admin"
+   },
+   {
+    "caption": "LINT_STR",
+    "en": "Long Integer to String",
+    "zh": "长整数 转 字符串",
+    "snippet": "${1:WSTRING} = LINT_TO_WSTRING(${2:lint});",
+    "meta": "ExtFunction",
+    "id": "bcfd6295-ce81-4724-b00a-2b19220edeb9",
+    "user": "admin"
+   },
+   {
+    "caption": "STR_LINT",
+    "en": "String to Long Integer",
+    "zh": "字符串 转 长整数",
+    "snippet": "${1:lint} = WSTRING_TO_LINT(${2:WSTRING});",
+    "meta": "ExtFunction",
+    "id": "05fc0c0a-2d68-4c5f-85b9-d3c8c315431d",
+    "user": "admin"
+   },
+   {
+    "caption": "UINT_STR",
+    "en": "Unsigned Integer to String",
+    "zh": "无符号整数 转 字符串",
+    "snippet": "${1:WSTRING} = UINT_TO_WSTRING(${2:uint});",
+    "meta": "ExtFunction",
+    "id": "97965849-070e-48b4-bed5-2469d8ce2b22",
+    "user": "admin"
+   },
+   {
+    "caption": "STR_UINT",
+    "en": "String to Unsigned Integer",
+    "zh": "字符串 转 无符号整数",
+    "snippet": "${1:uint} = WSTRING_TO_UINT(${2:WSTRING});",
+    "meta": "ExtFunction",
+    "id": "cbee2b48-9e38-4153-887b-10b524e651ce",
+    "user": "admin"
+   },
+   {
+    "caption": "UDINT_STR",
+    "en": "Unsigned Double Integer to String",
+    "zh": "无符号双精度数 转 字符串",
+    "snippet": "${1:WSTRING} = UDINT_TO_WSTRING(${2:udint});",
+    "meta": "ExtFunction",
+    "id": "c777b10e-e715-4506-98ff-6b38d004d4fe",
+    "user": "admin"
+   },
+   {
+    "caption": "STR_UDINT",
+    "en": "String to Unsigned Double Integer",
+    "zh": "字符串 转 无符号双精度数",
+    "snippet": "${1:udint} = WSTRING_TO_UDINT(${2:WSTRING});",
+    "meta": "ExtFunction",
+    "id": "bb9d4e68-e367-49f0-ade1-56e26eabe59e",
+    "user": "admin"
+   },
+   {
+    "caption": "ULINT_STR",
+    "en": "Unsigned Long Integer to String",
+    "zh": "无符号长整数数 转 字符串",
+    "snippet": "${1:WSTRING} = ULINT_TO_WSTRING(${2:ulint});",
+    "meta": "ExtFunction",
+    "id": "6e5423f0-95d1-4b6a-898c-4e6e04dc0224",
+    "user": "admin"
+   },
+   {
+    "caption": "STR_ULINT",
+    "en": "String to Unsigned Long Integer",
+    "zh": "字符串 转 无符号长整数数",
+    "snippet": "${1:ulint} = WSTRING_TO_ULINT(${2:WSTRING});",
+    "meta": "ExtFunction",
+    "id": "4965f1ee-2913-4649-b5d4-bcfb6d58933e",
+    "user": "admin"
+   },
+   {
+    "caption": "REAL_STR",
+    "en": "Real to String",
+    "zh": "实数 转 字符串",
+    "snippet": "${1:WSTRING} = REAL_TO_WSTRING(${2:real});",
+    "meta": "ExtFunction",
+    "id": "8f6575eb-1dec-41aa-98a8-f1f6a4382729",
+    "user": "admin"
+   },
+   {
+    "caption": "STR_REAL",
+    "en": "String to Real",
+    "zh": "字符串 转 实数",
+    "snippet": "${1:real} = WSTRING_TO_REAL(${2:WSTRING});",
+    "meta": "ExtFunction",
+    "id": "e1765c48-eabe-49c7-a0e0-0d3039243c4f",
+    "user": "admin"
+   },
+   {
+    "caption": "SINT_STR",
+    "en": "Short Integer to String",
+    "zh": "短整数 转 字符串",
+    "snippet": "${1:WSTRING} = SINT_TO_WSTRING(${2:sint});",
+    "meta": "ExtFunction",
+    "id": "6e1035cd-5f22-4018-bb57-b857ee71dd66",
+    "user": "admin"
+   },
+   {
+    "caption": "STR_SINT",
+    "en": "String to Short Integer",
+    "zh": "字符串 转 短整数",
+    "snippet": "WSTRING_TO_SINT(${1:WSTRING}, ${2:sint});",
+    "meta": "ExtFunction",
+    "id": "d11cec0e-bde9-4d97-b3bb-e82821355b09",
+    "user": "admin"
+   },
+   {
+    "caption": "REAL_DINT",
+    "en": "Real to Double Integer",
+    "zh": "实数 转 双精度数",
+    "snippet": "${1:dint} = REAL_TO_DINT(${2:real});",
+    "meta": "ExtFunction",
+    "id": "4e34fd0f-aea1-46cf-beda-77f4ce20be39",
+    "user": "admin"
+   },
+   {
+    "caption": "DINT_REAL",
+    "en": "Double Integer to Real",
+    "zh": "双精度数 转 实数",
+    "snippet": "${1:real} = DINT_TO_REAL(${2:dint});",
+    "meta": "ExtFunction",
+    "id": "1d5c3d7a-b673-4c8b-bca6-60601ad71983",
+    "user": "admin"
+   },
+   {
+    "caption": "REAL_INT",
+    "en": "Real to Integer",
+    "zh": "实数 转 整数",
+    "snippet": "${1:DINT} = REAL_TO_INT(${2:real});",
+    "meta": "ExtFunction",
+    "id": "4d3dda40-fdd6-4ab7-bcaa-3861fb9a2b7e",
+    "user": "admin"
+   },
+   {
+    "caption": "INT_REAL",
+    "en": "Integer to Real",
+    "zh": "整数 转 实数",
+    "snippet": "${1:real} = INT_TO_REAL(${2:DINT});",
+    "meta": "ExtFunction",
+    "id": "21db203a-e6c6-4c03-80d3-85a9aa5c3a78",
+    "user": "admin"
+   },
+   {
+    "caption": "REAL_LINT",
+    "en": "Real to Long Integer",
+    "zh": "实数 转 长整数",
+    "snippet": "${1:lint} = REAL_TO_LINT(${2:real});",
+    "meta": "ExtFunction",
+    "id": "6b225f1d-cc0f-4456-a714-37c56b2dfded",
+    "user": "admin"
+   },
+   {
+    "caption": "LINT_REAL",
+    "en": "Long Integer to Real",
+    "zh": "长整数 转 实数",
+    "snippet": "${1:real} = LINT_TO_REAL(${2:lint});",
+    "meta": "ExtFunction",
+    "id": "d75b9e81-92d3-4a98-8c7f-f729a4e86931",
+    "user": "admin"
+   }
+  ]
+ }
+]

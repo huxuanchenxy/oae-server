@@ -1,0 +1,13 @@
+/.vs
+/BgManageWebApi/obj
+/BgManageWebApi/bin
+/BusinessEntity/obj
+/BusinessEntity/bin
+/BusinessInterface/bin
+/BusinessInterface/obj
+/BusinessService/bin
+/BusinessService/obj
+/CommonUtility/obj
+/CommonUtility/bin
+/DataBaseModels/bin
+/DataBaseModels/obj

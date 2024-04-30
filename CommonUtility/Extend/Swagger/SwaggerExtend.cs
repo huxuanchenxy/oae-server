@@ -46,7 +46,7 @@ namespace CommonUtility.Extend.Swagger
             {
                 foreach (string version in typeof(ApiVersions).GetEnumNames())
                 {
-                    option.SwaggerEndpoint($"/swagger/{version}/swagger.json", $"WYy Company ManageMent Api第【{version}】版本");
+                    option.SwaggerEndpoint($"/swagger/{version}/swagger.json", $"IDE ManageMent Api第【{version}】版本");
                 }
             });
         }

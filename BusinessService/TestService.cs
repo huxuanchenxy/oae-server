@@ -19,7 +19,7 @@ namespace BusinessService
             _mapper = mapper;
         }
 
-        public void Save(TestEntity req)
+        public void Save(TestDto req)
         {
             var dbObj = _mapper.Map<Test>(req);
             dbObj.CreateDate = DateTime.Now;

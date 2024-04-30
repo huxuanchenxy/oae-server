@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using BusinessEntity;
+using BusinessEntity.Sys;
+using DataBaseModels;
 using DataBaseModels.Common;
+using DataBaseModels.Sys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +20,10 @@ namespace CommonUtility
         /// </summary>
         public AutoMapperConfigs()
         {
-            CreateMap<TestEntity, Test>().ReverseMap();
+            CreateMap<TestDto, Test>().ReverseMap();
+            CreateMap<SysFuncDto, SysFunc>().ReverseMap();
+            CreateMap<CusModuleDto, CusModule>().ReverseMap();
+            CreateMap<FunctionsDto, Functions>().ReverseMap();
         }
     }
 }

@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace BusinessInterface
 {
-    public  interface ITestService:IBaseService
+    public interface ICusModuleService : IBaseService
     {
-        void Save(TestDto req);
+        CusModuleDto GetModule(int id);
+        int SaveModule(List<CusModuleDto> dtoList);
     }
 }

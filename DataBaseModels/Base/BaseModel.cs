@@ -9,24 +9,19 @@ using System.Threading.Tasks;
 namespace DataBaseModels.Base
 {
     public abstract class BaseModel
-    {  
-
+    {
         [SugarColumn(IsNullable = true)]
-        public int Status { get; set; }
+        public int Status { get; set; } = 1;
 
         [SugarColumn(IsNullable = true)]
         public decimal? OrderNum { get; set; }
 
         [SugarColumn(IsNullable = true)]
-        public int? Creater { get; set; }
+        public string? Creater { get; set; }
 
-        [SugarColumn(IsNullable = true)]
+        [SugarColumn(InsertServerTime = true, IsOnlyIgnoreUpdate = true)]
         public DateTime? CreateDate { get; set; }
 
-        [SugarColumn(IsNullable = true)]
-        public int? Updater { get; set; }
-
-        [SugarColumn(IsNullable = true)]
-        public DateTime? UpdateDate { get; set; }
+        
     }
 }

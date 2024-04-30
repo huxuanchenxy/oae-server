@@ -7,17 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\**" />
+    <Compile Remove="Sys\**" />
+    <EmbeddedResource Remove="Common\**" />
+    <EmbeddedResource Remove="Sys\**" />
+    <None Remove="Common\**" />
+    <None Remove="Sys\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="SqlSugarCore" Version="5.1.4.86" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessEntity\BusinessEntity.csproj" />
     <ProjectReference Include="..\DataBaseModels\DataBaseModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Sys\" />
   </ItemGroup>
 
 </Project>
