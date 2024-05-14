@@ -17,17 +17,16 @@ namespace DataBaseModels
         public string? Name { get; set; }
         [SugarColumn(IsNullable = true)]
         public string? NameSpace { get; set; } 
-       [SugarColumn(ColumnDataType = "Text")]
+       [SugarColumn(IsNullable = true,ColumnDataType = "Text")]
         public string? Properties { get; set; }
         [SugarColumn(IsNullable = true )]
         public string? Type { get; set; }
-        [SugarColumn(ColumnDataType = "Text")]
+        [SugarColumn(IsNullable = true, ColumnDataType = "Text")]
         public string? Algorithms { get; set; }
-        [SugarColumn(ColumnDataType = "Text")]
+        [SugarColumn(IsNullable = true, ColumnDataType = "Text")]
         public string? Interface { get; set; }
-        [SugarColumn(ColumnDataType = "Text")]
-        public string? Ecc { get; set; }
-
+        [SugarColumn(IsNullable = true, ColumnDataType = "Text")]
+        public string? Ecc { get; set; }  
         [SugarColumn(InsertServerTime = true, UpdateServerTime=true)]
         public DateTime? UpdateDate { get; set; }
     }

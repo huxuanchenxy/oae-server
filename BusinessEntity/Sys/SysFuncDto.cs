@@ -13,6 +13,8 @@ namespace BusinessEntity.Sys
         public string? FuncUrl { get; set; }
         public int? FuncParentId { get; set; }
         public int FuncLevelId { get; set; }
-        public bool IsEdit { get;set; }=false;
+        public bool? IsEdit { get;set; }=false;
+        public string? Type { get; set; } = ""; 
+        public string? Operation { get; set; }
     }
 }

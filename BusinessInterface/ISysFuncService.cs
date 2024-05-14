@@ -11,5 +11,9 @@ namespace BusinessInterface
     {
         List<SysFuncDto> GetSysFuncList();
         void SaveSysFunc(SysFuncDto dto);
+        void AddModule(SysFuncDto dto);
+        bool ValidateModuleName(string name, int pid); 
+        void DelModule(int id);
+        bool Rename(string name, int id, int pid);
     }
 }

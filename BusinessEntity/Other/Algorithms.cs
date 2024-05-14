@@ -9,7 +9,8 @@ namespace BusinessEntity.Other
     public  class AlgorithmsDto
     {
         public string? key { get; set; }       
-        public string? text { get; set; } 
+        public string? text { get; set; }
+        public string? type { get; set; }
         public string? comment { get; set; }
     }
 }

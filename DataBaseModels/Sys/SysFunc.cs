@@ -17,5 +17,7 @@ namespace DataBaseModels.Sys
         public int? FuncParentId { get; set; }
         [SugarColumn(IsNullable = true)]
         public int? FuncLevelId { get; set; }
+        [SugarColumn(IsNullable = true)]
+        public string? Operation { get; set; }
     }
 }

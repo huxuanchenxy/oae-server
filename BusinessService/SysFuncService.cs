@@ -56,11 +56,12 @@ namespace BusinessService
                     if (model.Algorithms?.Length > 0)
                     {
                         List<AlgorithmsDto> listSfDto = JsonSerializer.Deserialize<List<AlgorithmsDto>>(model.Algorithms!.TrimEnd('\"').TrimStart('\"'))!;
-                        if (listSfDto.Count > 0)
+                        if (listSfDto?.Count > 0)
                         {
                             foreach (var sfDto in listSfDto)
                             {
                                 var algoChildObj = AssembleSysFunc(sfDto.text!, $"algorithm/{sfDto.text}", algoObj.Id, funcLevelId + 1, parentDto.FuncUrl!, idIndex++);
+                                algoChildObj.Type = sfDto.type;
                                 listDto.Add(algoChildObj);
                             }
                         }
@@ -103,6 +104,54 @@ namespace BusinessService
             {
                 _dbClient.Updateable(dbObj).IgnoreColumns(it => new { it.CreateDate }).ExecuteCommand();
             }
+        }
+
+        public void  AddModule(SysFuncDto dto)
+        {
+            var dbObj = _mapper.Map<SysFunc>(dto);
+            if (dbObj.Id == 0)
+            {
+                //dto.Id= dbObj.Id = Guid.NewGuid().ToString();
+                var newFunc = this.Insert(dbObj);
+                var moduleId = newFunc.Id;
+                CusModule newModule = new CusModule() { Id = moduleId };
+                newModule.Interface = "{\"input_events\":[],\"output_events\":[],\"inputs\":[],\"outputs\":[],\"internals\":[],\"temps\":[]}";
+                this.Insert(newModule);               
+
+            }
+        }
+
+        public void DelModule(int id)
+        { 
+            _dbClient.Updateable<SysFunc>()
+                  .SetColumns(it=>new SysFunc() { Status=ConstantList.StautsDel})
+                  .Where(x => x.Id == id).ExecuteCommand(); ;
+            _dbClient.Updateable<CusModule>()
+                 .SetColumns(it => new CusModule() { Status = ConstantList.StautsDel })
+              .Where(x => x.Id == id).ExecuteCommand(); ;
+        }
+
+        public bool ValidateModuleName(string name, int pid)
+        {
+            var pFlag = this.Query<SysFunc>(x => x.FuncName == name && x.FuncParentId == pid).Any();
+            return !pFlag;
+        }
+
+        public bool Rename(string name, int id,int pid)
+        {
+            var pFlag = this.Query<SysFunc>(x => x.FuncName == name && x.FuncParentId == pid && x.Id !=id).Any();
+            if(!pFlag)
+            {
+                var iCount=_dbClient.Updateable<SysFunc>()
+                .SetColumns(it => new SysFunc() { FuncName = name})
+                .Where(x => x.Id == id).ExecuteCommand();
+                pFlag = iCount > 0;
+            }
+            else
+            {
+                pFlag = !pFlag;
+            }
+            return pFlag;
         }
 
     }

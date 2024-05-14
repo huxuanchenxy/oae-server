@@ -70,7 +70,7 @@ namespace BusinessService
             return await _dbClient.Queryable<T>().InSingleAsync(id);
         }
         /// <summary>
-        /// 不应该暴露给上端使用者，尽量少用
+        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>

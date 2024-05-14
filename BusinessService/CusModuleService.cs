@@ -3,6 +3,7 @@ using BusinessEntity;
 using BusinessEntity.Sys;
 using BusinessInterface;
 using DataBaseModels;
+using DataBaseModels.Sys;
 using NetTaste;
 using SqlSugar;
 using System;
@@ -30,6 +31,7 @@ namespace BusinessService
             return dto;
         }
 
+       
         public int  SaveModule(List<CusModuleDto> dtoList)
         {
             var dblIST = _mapper.Map<List<CusModule>>(dtoList);

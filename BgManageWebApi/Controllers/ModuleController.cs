@@ -27,8 +27,7 @@ namespace BgManageWebApi.Controllers
         { 
             var obj = _iCusModuleService.GetModule(int.Parse(id));
             return await ApiResult.Success(obj);
-        }
-
+        } 
 
         [HttpPost]
         public async Task<ApiResultDto> SaveModule(List<CusModuleDto> dtoList)
@@ -36,5 +35,10 @@ namespace BgManageWebApi.Controllers
             var iCount = _iCusModuleService.SaveModule(dtoList);
             return await ApiResult.Success(iCount);
         }
+
+       
+
+
+
     }
 }

@@ -20,8 +20,7 @@ namespace DataBaseModels.Base
         public string? Creater { get; set; }
 
         [SugarColumn(InsertServerTime = true, IsOnlyIgnoreUpdate = true)]
-        public DateTime? CreateDate { get; set; }
-
+        public DateTime? CreateDate { get; set; } 
         
     }
 }

@@ -9,7 +9,7 @@ namespace BusinessInterface
 {
     public interface ICusModuleService : IBaseService
     {
-        CusModuleDto GetModule(int id);
+        CusModuleDto GetModule(int id); 
         int SaveModule(List<CusModuleDto> dtoList);
     }
 }
