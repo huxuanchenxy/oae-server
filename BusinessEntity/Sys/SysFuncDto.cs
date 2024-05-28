@@ -16,5 +16,6 @@ namespace BusinessEntity.Sys
         public bool? IsEdit { get;set; }=false;
         public string? Type { get; set; } = ""; 
         public string? Operation { get; set; }
+        public string? OperationType { get; set; }
     }
 }

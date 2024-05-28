@@ -19,7 +19,12 @@ builder.Services.AddTransient<ITestService, TestService>();
 builder.Services.AddTransient<ICusModuleService, CusModuleService>();
 builder.Services.AddTransient<ISysFuncService, SysFuncService>();
 builder.Services.AddTransient<IFunctionsService, FunctionsService>();
-
+builder.Services.AddTransient<IDevicesService, DevicesService>();
+builder.Services.AddTransient<ISegmentsService, SegmentsService>();
+builder.Services.AddTransient<IControlsService, ControlsService>();
+builder.Services.AddTransient<IResourcesService, ResourcesService>();
+builder.Services.AddTransient<IResourceFuncsService, ResourceFuncsService>();
+builder.Services.AddTransient<ISegmentDeviceService, SegmentDeviceService>();
 var app = builder.Build();
  // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
@@ -31,10 +36,11 @@ app.UseStaticFiles(new StaticFileOptions
     OnPrepareResponse = (c) =>
     {
         c.Context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-        c.Context.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, TRACE, HEAD, PATCH");
+        c.Context.Response.Headers.Add("Access-Control-Allow-Methods", "*");
         c.Context.Response.Headers.Add("Access-Control-Allow-Headers", "*");
-    },
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "DevImgs")),
+    },    
+    FileProvider = new PhysicalFileProvider(Path.Combine(AppContext.BaseDirectory, "DevImgs")),
+    //FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "DevImgs")),
     RequestPath = "/devimgs"
 });
 app.UseCrosDomainsPolicy(); 

@@ -23,7 +23,18 @@ namespace CommonUtility
             CreateMap<TestDto, Test>().ReverseMap();
             CreateMap<SysFuncDto, SysFunc>().ReverseMap();
             CreateMap<CusModuleDto, CusModule>().ReverseMap();
-            CreateMap<FunctionsDto, Functions>().ReverseMap();
+            CreateMap<FunctionsDto, Functions>().ReverseMap(); 
+            CreateMap<SegmentsDto, Segments>().ReverseMap();
+            CreateMap<DevicesDto, Devices>().ReverseMap();
+            CreateMap<ControlsDto, Controls>().ReverseMap();
+            CreateMap<ResourcesDto, Resources>().ReverseMap();
+            CreateMap<ResourcesDto, TreeListDto>().ReverseMap();
+            CreateMap<SegmentsDto, TreeListDto>().ReverseMap();
+            CreateMap<DevicesDto, TreeListDto>().ReverseMap();
+            CreateMap<ControlsDto, TreeListDto>().ReverseMap();
+            CreateMap<ResourceFuncsDto, ResourceFuncs>().ReverseMap();
+            CreateMap<SegmentDeviceDto, SegmentDevice>().ReverseMap();
+            
         }
     }
 }

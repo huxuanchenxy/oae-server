@@ -11,10 +11,17 @@ namespace DataBaseModels.Sys
     public class Devices : DataBaseIntId
     {
         public int ParentId { get; set; } = 0;
-        public string? Name { get; set; } 
-        public string? Namespace { get; set; }
-        public string? Images { get; set; }
-        public string? Type { get; set; }
+        public string? Name { get; set; }
+        [SugarColumn(IsNullable = true)]
+        public string? Namespace { get; set; } = "";
+        [SugarColumn(IsNullable = true)]
+        public string? Images { get; set; } = "";
+        [SugarColumn(IsNullable = true)]
+        public string? Type { get; set; } = "";
+        [SugarColumn(IsNullable = true)]
+        public string? Version { get; set; } = "";
+        [SugarColumn(IsNullable = true)]
+        public int VersionEnable { get; set; } = 0;
         [SugarColumn(IsNullable = true, ColumnDataType = "Text")]
         public string? XmlContent { get; set; }
         [SugarColumn(IsNullable = true, ColumnDataType = "Text")]

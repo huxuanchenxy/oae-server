@@ -31,7 +31,7 @@ namespace BusinessService
             var list = _dbClient.Queryable<SysFunc>()
               .Where(d => d.Status == ConstantList.StautsValid).ToList();
             var listDto = _mapper.Map<List<SysFuncDto>>(list);
-            var iList = list.Where(x => x.FuncLevelId == 3 && x.Status == ConstantList.StautsValid).Select(x => x.Id).ToList();
+            var iList = list.Where(x => x.FuncLevelId == 4 && x.Status == ConstantList.StautsValid).Select(x => x.Id).ToList();
             var moduleList = _dbClient.Queryable<CusModule>().Where(d => d.Status == ConstantList.StautsValid).In(it => it.Id, iList).ToList();
 
             if (moduleList.Any())
@@ -44,23 +44,23 @@ namespace BusinessService
                     var funcLevelId = parentDto.FuncLevelId + 1;
                     parentDto.FuncUrl = $"{parentDto.FuncUrl}/{parentId}/{parentDto.Id}";
 
-                    var interfaceObj = AssembleSysFunc("接口", "interface", model.Id, funcLevelId, parentDto.FuncUrl!, idIndex++);
+                    var interfaceObj = AssembleSysFunc("接口", "interface", model.Id, funcLevelId, parentDto.FuncUrl!, idIndex++,"", "");
                     listDto.Add(interfaceObj);
 
-                    var algoObj = AssembleSysFunc("算法", "algorithm", model.Id, funcLevelId, "", idIndex++);
+                    var algoObj = AssembleSysFunc("算法", "algorithm", model.Id, funcLevelId, "", idIndex++, "right,new", "algorithm");
                     listDto.Add(algoObj);
 
-                    var eccObj = AssembleSysFunc("ECC", "ecc", model.Id, funcLevelId, parentDto.FuncUrl!, idIndex++);
+                    var eccObj = AssembleSysFunc("ECC", "ecc", model.Id, funcLevelId, parentDto.FuncUrl!, idIndex++, "", "");
                     listDto.Add(eccObj);
 
                     if (model.Algorithms?.Length > 0)
                     {
-                        List<AlgorithmsDto> listSfDto = JsonSerializer.Deserialize<List<AlgorithmsDto>>(model.Algorithms!.TrimEnd('\"').TrimStart('\"'))!;
+                        List<AlgorithmsDto> listSfDto = JsonSerializer.Deserialize<List<AlgorithmsDto>>(model.Algorithms)!; //(model.Algorithms!.TrimEnd('\"').TrimStart('\"'))!;
                         if (listSfDto?.Count > 0)
                         {
                             foreach (var sfDto in listSfDto)
                             {
-                                var algoChildObj = AssembleSysFunc(sfDto.text!, $"algorithm/{sfDto.text}", algoObj.Id, funcLevelId + 1, parentDto.FuncUrl!, idIndex++);
+                                var algoChildObj = AssembleSysFunc(sfDto.text!, $"algorithm/{sfDto.text}", algoObj.Id, funcLevelId + 1, parentDto.FuncUrl!, idIndex++,"right,del,open,rename", "algorithm");
                                 algoChildObj.Type = sfDto.type;
                                 listDto.Add(algoChildObj);
                             }
@@ -79,15 +79,17 @@ namespace BusinessService
             return listDto;
         }
 
-        public SysFuncDto AssembleSysFunc(string name,string nameEn,int? id,int funcLevelId,string funcUrl,int? newId)
+        public SysFuncDto AssembleSysFunc(string name, string nameEn, int? id, int funcLevelId, string funcUrl, int? newId, string operation, string operationType)
         {
             SysFuncDto newobj = new SysFuncDto()
             {
                 Id = newId,
                 FuncName = name,
                 FuncLevelId = funcLevelId,
-                FuncUrl =string.IsNullOrEmpty(funcUrl)?"":$"{funcUrl}/{nameEn}",
-                FuncParentId=id,  
+                FuncUrl = string.IsNullOrEmpty(funcUrl) ? "" : $"{funcUrl}/{nameEn}",
+                FuncParentId = id,
+                Operation = operation,
+                OperationType = operationType
             };
             return newobj;
         }

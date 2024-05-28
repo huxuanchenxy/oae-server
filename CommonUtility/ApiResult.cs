@@ -11,11 +11,11 @@ namespace CommonUtility
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static async Task<ApiResultDto> Success(object? data)
+        public static async Task<ApiResultDto> Success(object? data,string message="")
         {
             var res = Task.Run(() =>
             {
-                return new ApiResultDto() { IsSuccess = true, Data = data };
+                return new ApiResultDto() { IsSuccess = true, Data = data,Message=message };
             });
             return await res;
         }

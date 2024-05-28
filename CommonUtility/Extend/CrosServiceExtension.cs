@@ -14,7 +14,6 @@ namespace CommonUtility.Extend
         {
             builder.Services.AddCors(option =>
             {
-                 
                 option.AddPolicy("AllCrosDomainsPolicy", corsbuilder =>
                 {
                     corsbuilder.AllowAnyOrigin()
