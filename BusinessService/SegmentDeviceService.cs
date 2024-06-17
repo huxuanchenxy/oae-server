@@ -73,5 +73,16 @@ namespace BusinessService
             //    this.Update(dbObj);
             //}
         }
+
+
+        public bool UpdateStatus(int id)
+        {
+            var iCount = _dbClient.Updateable<SegmentDevice>()
+            .SetColumns(it => new SegmentDevice() { Status = ConstantList.StautsDel })
+            .Where(x => x.Id == id).ExecuteCommand();
+            return iCount > 0;
+        }
+
+
     }
 }

@@ -12,5 +12,6 @@ namespace BusinessInterface
         List<SegmentDeviceDto> GetList(int segid);
         void Saves(List<SegmentDeviceDto> list);
         List<SegmentDeviceDto> GetAllList();
+        bool UpdateStatus(int id);
     }
 }

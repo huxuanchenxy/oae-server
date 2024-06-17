@@ -12,7 +12,6 @@ namespace BusinessInterface
     public interface IResourcesService : IBaseService
     {
         List<ResourcesDto> GetList(); 
-
         void Saves(ResourcesDto req);
         ResourcesDto? GetObj(string name, string version, int parentId);  
         bool UpdateStatus(int id);

@@ -22,6 +22,9 @@ using System.Collections.Generic;
 using AutoMapper;
 using System.Security.Cryptography;
 using Microsoft.VisualBasic;
+using System.IO;
+using SqlSugar.Extensions;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BgManageWebApi.Controllers
 {
@@ -36,12 +39,14 @@ namespace BgManageWebApi.Controllers
         private readonly IResourcesService _iResourcesService;
         private readonly IResourceFuncsService _iResourceFuncsService;
         private readonly ISegmentDeviceService  _iSegmentDeviceService;
+        private readonly IInternalFbsService _iInternalFbsService;
         private readonly IMapper _mapper;
         private IConfiguration _iConfig;
         public SysController(ISysFuncService iSysFuncService, IDevicesService iDevicesService,
             ISegmentsService iSegmentsService, IControlsService iControlsService ,
                                              IResourcesService iResourcesService, IMapper mapper,
                                              IConfiguration iConfig,
+                                              IInternalFbsService iInternalFbsService,
                 IResourceFuncsService iResourceFuncsService, ISegmentDeviceService iSegmentDeviceService)
         {
             _iSysFuncService = iSysFuncService;
@@ -53,6 +58,7 @@ namespace BgManageWebApi.Controllers
             _iSegmentDeviceService = iSegmentDeviceService;
             _mapper = mapper;
             _iConfig = iConfig;
+            _iInternalFbsService = iInternalFbsService;
         }
 
         [HttpGet]
@@ -146,6 +152,46 @@ namespace BgManageWebApi.Controllers
                     }
                 }
             }
+        }
+        
+        [HttpGet]
+        public async Task<ApiResultDto> GetTreeForApplication(string pid)
+        {
+            List<TreeListDto> list = new List<TreeListDto>();
+
+            #region 逻辑处理功能块
+            var interfbslList = _iInternalFbsService.GetList();
+            var listTInter = _mapper.Map<List<TreeListDto>>(interfbslList);
+            foreach (var item in listTInter)
+            {
+                item.Type = "generic";
+            }
+            var parInter = listTInter.Where(x => x.ParentId == 0).ToList();
+            HandleTree(parInter, listTInter);
+            list.AddRange(parInter);
+            #endregion
+
+            #region 项目功能块
+            var iPid = int.Parse(pid);
+           var listCusModule=  _iSysFuncService.GetModule(iPid); 
+            foreach (var item in listCusModule)
+            {
+                item.Type = "project";
+            }
+            var cusModuleTree = new TreeListDto()
+            {
+                Id= iPid,
+                ParentId=0,
+                Name="项目功能块",
+                Children = new List<TreeListDto>(),
+                Images ="",
+                Type= "project",
+                JsonContent=""
+            };
+            cusModuleTree.Children.AddRange(listCusModule);
+            list.Add(cusModuleTree);
+            #endregion  
+            return await ApiResult.Success(list);
         }
 
         #region 功能菜单
@@ -260,25 +306,31 @@ namespace BgManageWebApi.Controllers
             //Console.WriteLine(data.UserName + "   " + data.Id);
 
             var list = _iSegmentsService.GetSegmentsList();
+            var segdevList = _iSegmentDeviceService.GetAllList();
             //foreach (var item in list)
             //{
             //    if (item.JsonContent != "")
             //    {
-                    //var myObj = JsonConvert.DeserializeObject<dynamic>(item.JsonContent!);//反序列化为 dynamic 对象 
-                    //var setting = new JsonSerializerSettings();
-                    //setting.ContractResolver = new CamelCasePropertyNamesContractResolver();  //使用驼峰样式  
-                    //var serializerSettings1 = new JsonSerializerSettings
-                    //{
-                    //    // 设置为驼峰命名
-                    //    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    //}; 
-                    //string jsonString = JsonConvert.SerializeObject(myObj, serializerSettings);
-                    //myObj = JsonConvert.DeserializeObject<dynamic>(jsonString);
-                    //jsonString = JsonConvert.SerializeObject(myObj, serializerSettings);
-                    //Console.WriteLine(jsonString);
+            //var myObj = JsonConvert.DeserializeObject<dynamic>(item.JsonContent!);//反序列化为 dynamic 对象 
+            //var setting = new JsonSerializerSettings();
+            //setting.ContractResolver = new CamelCasePropertyNamesContractResolver();  //使用驼峰样式  
+            //var serializerSettings1 = new JsonSerializerSettings
+            //{
+            //    // 设置为驼峰命名
+            //    ContractResolver = new CamelCasePropertyNamesContractResolver()
+            //}; 
+            //string jsonString = JsonConvert.SerializeObject(myObj, serializerSettings);
+            //myObj = JsonConvert.DeserializeObject<dynamic>(jsonString);
+            //jsonString = JsonConvert.SerializeObject(myObj, serializerSettings);
+            //Console.WriteLine(jsonString);
             //    }
             //}
-            return await ApiResult.Success(list);
+            var obj = new
+            {
+                list,
+                segdevList
+            };
+            return await ApiResult.Success(obj);
         }
 
         [HttpGet]
@@ -322,6 +374,13 @@ namespace BgManageWebApi.Controllers
         {
             _iSegmentDeviceService.Saves(req);
             return await ApiResult.Success(true);
+        }
+
+        [HttpGet]
+        public async Task<ApiResultDto> UpdateSegmentDeviceStatus(string id)
+        {
+            var list = _iSegmentDeviceService.UpdateStatus(int.Parse(id));
+            return await ApiResult.Success(list);
         }
         #endregion
 
@@ -392,8 +451,13 @@ namespace BgManageWebApi.Controllers
             var list = _iResourceFuncsService.GetList();
             return await ApiResult.Success(list);
         }
-
-     
+        [HttpGet]
+        public async Task<ApiResultDto> GetResourceFuncByTypeGroup()
+        {
+            var list = _iResourceFuncsService.GetList();
+            var listGroup=list.GroupBy(x => x.Type).Select(y => new { type=y.Key, list=y }).ToList();
+            return await ApiResult.Success(listGroup);
+        }
 
         [HttpPost]
         public async Task<ApiResultDto> SaveResourceFunc(ResourceFuncsDto req)
@@ -401,7 +465,77 @@ namespace BgManageWebApi.Controllers
             _iResourceFuncsService.Saves(req);
             return await ApiResult.Success(true);
         }
-        #endregion 
+
+        [HttpGet]
+        public async Task<ApiResultDto> UpdateResourceFuncStatus(string id)
+        {
+            var pFlag = _iResourceFuncsService.UpdateStatus(int.Parse(id));
+            return await ApiResult.Success(pFlag);
+        }
+        #endregion
+
+        #region 通用功能块-内置功能块
+
+
+        [HttpGet]  
+        public async Task<ApiResultDto> GetInternalFbsList()
+        {
+            var list = _iInternalFbsService.GetList();
+
+            List<InternalFbsDto> lsIfbs= list.Where(x=>!string.IsNullOrWhiteSpace(x.JsonContent)).ToList();
+            foreach (var item in lsIfbs)
+            {
+                item.Type = "SFB";
+                item.ParentName = list.Find(x => x.Id == item.ParentId)!?.Name;
+            }
+
+            //foreach (var item in list)
+            //{
+            //if (!string.IsNullOrEmpty(item.XmlContent) )
+            // {
+            //     string xmlContent = item.XmlContent!.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>","").Trim();
+            //     xmlContent = Regex.Replace(xmlContent, "<VarDeclaration", "<VarDeclaration xmlns:json=\"http://james.newtonking.com/projects/json\" json:Array=\"true\" ");
+            //     XmlDocument xmlDoc = new XmlDocument();
+            //     xmlDoc.LoadXml(xmlContent);
+            //     string jsonText = JsonConvert.SerializeXmlNode(xmlDoc, Newtonsoft.Json.Formatting.None, true);
+            //     Regex reg = new Regex("\"@([^ \"]*)\"\\s*:\\s*\"(([^ \"]+\\s*)*)\"");
+            //     string strPatten = "\"item\":\"2\"";
+            //     jsonText = reg.Replace(jsonText, strPatten);
+            //     item.JsonContent = jsonText;
+            //     _iInternalFbsService.Saves(item);
+            // }
+            //}
+            return await ApiResult.Success(new { list, lsIfbs });
+        }
+
+
+        [HttpGet]
+        public async Task<ApiResultDto> ValidateInternalFbsName(string name, string pid = "0")
+        {
+            var pFlag = _iInternalFbsService.ValidateName(name, int.Parse(pid));
+            return await ApiResult.Success(pFlag);
+        }
+
+        [HttpPost]
+        public async Task<ApiResultDto> SaveInternalFbs(InternalFbsDto req)
+        {
+            _iInternalFbsService.Saves(req);
+            return await ApiResult.Success(true);
+        }
+
+        [HttpGet]
+        public async Task<ApiResultDto> UpdateInternalFbsName(string name, string id)
+        {
+            var pFlag = _iInternalFbsService.UpdateName(name, int.Parse(id));
+            return await ApiResult.Success(pFlag);
+        }
+        [HttpGet]
+        public async Task<ApiResultDto> UpdateInternalFbsStatus(string id)
+        {
+            var pFlag = _iInternalFbsService.UpdateStatus(int.Parse(id));
+            return await ApiResult.Success(pFlag);
+        }
+        #endregion
 
         #region 上传文件
         /// <summary>
@@ -411,8 +545,9 @@ namespace BgManageWebApi.Controllers
         /// <param name="types"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ApiResultDto> UploadFileAsync([FromForm] IFormFile file, [FromForm] string types)
+        public async Task<ApiResultDto> UploadFileAsync([FromForm] IFormFile file , [FromForm] string types)
         {
+            //IFormFile file = files[0];
             string suffix = string.Empty; //取出后缀名
             #region 获取文件后缀 
             string filename = file.FileName.Trim();
@@ -444,6 +579,8 @@ namespace BgManageWebApi.Controllers
                             return await UploadExportResource(file, name, parentId);
                         case "resourcefunc":
                             return await UploadExportResourceFunc(file, name, parentId);
+                        case "fbt":
+                            return await UploadExportInternalFbs(file, name, parentId);
                         default:
                             return await ApiResult.Success(false);
                     }
@@ -491,7 +628,12 @@ namespace BgManageWebApi.Controllers
             using var memoryStream = new MemoryStream();
             file.CopyTo(memoryStream);
             string xmlContent = System.Text.Encoding.UTF8.GetString(memoryStream.ToArray());
+            //xmlContent = Regex.Replace(xmlContent, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "");
+            var regex = new Regex(@"(<\?xml).*?(>)");
+            xmlContent = regex.Replace(xmlContent, "");
             xmlContent = Regex.Replace(xmlContent, "<VarDeclaration", "<VarDeclaration xmlns:json=\"http://james.newtonking.com/projects/json\" json:Array=\"true\" ");
+            xmlContent = Regex.Replace(xmlContent, "<Event Key=", "<Event xmlns:json=\"http://james.newtonking.com/projects/json\" json:Array=\"true\"  Key=");
+
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlContent);
             string jsonText = JsonConvert.SerializeXmlNode(xmlDoc, Newtonsoft.Json.Formatting.None, true);
@@ -534,7 +676,7 @@ namespace BgManageWebApi.Controllers
                         Version = version,
                     };
                     _iSegmentsService.SaveSegments(req);
-                    return await ApiResult.Success("上传数据成功");
+                    return await ApiResult.Success("上传成功");
                 }
                 else
                 {
@@ -576,7 +718,7 @@ namespace BgManageWebApi.Controllers
                         Version = version
                     };
                     _iDevicesService.SaveDevices(req);
-                    return await ApiResult.Success("上传数据成功");
+                    return await ApiResult.Success("上传成功");
                 }
                 else
                 {
@@ -618,7 +760,7 @@ namespace BgManageWebApi.Controllers
                         Version = version,
                     };
                     _iControlsService.Saves(req);
-                    return await ApiResult.Success("上传数据成功");
+                    return await ApiResult.Success("上传成功");
                 }
                 else
                 {
@@ -653,7 +795,7 @@ namespace BgManageWebApi.Controllers
                     Status = 1,
                 };
                 _iResourcesService.Saves(req);
-                return await ApiResult.Success("上传数据成功");
+                return await ApiResult.Success("上传成功");
             }
 
         }
@@ -678,11 +820,50 @@ namespace BgManageWebApi.Controllers
                 Version = version,
             };
             _iResourceFuncsService.Saves(req);
-            return await ApiResult.Success("上传数据成功"); 
+            return await ApiResult.Success("上传成功"); 
+        }
+
+        private async Task<ApiResultDto> UploadExportInternalFbs(IFormFile file, string name, int parentId)
+        {
+            var (xmlContent, jsonText) = XmlConvertJson(file);
+            var dyObj = JsonConvert.DeserializeObject<dynamic>(jsonText);
+            string type = dyObj!.Type;
+            if (!string.IsNullOrWhiteSpace(""))
+            {
+                return await ApiResult.Error("上传数据内容不正确");
+            }
+            else
+            {
+                string version = dyObj!.Version;
+                string jsonName = dyObj!.Name;
+                var objDto = _iInternalFbsService.GetObj(jsonName, parentId);
+                if (objDto == null)
+                {
+                     objDto = _iInternalFbsService.GetObj(jsonName, version, parentId);
+                    var id = 0;
+                    if (objDto != null) { id = objDto.Id; }
+                    InternalFbsDto req = new InternalFbsDto()
+                    {
+                        Id = id,
+                        ParentId = parentId,
+                        JsonContent = jsonText,
+                        Name = name,
+                        XmlContent = xmlContent,
+                        Status = 1,
+                        Version = version,
+                    };
+                    _iInternalFbsService.Saves(req);
+                    return await ApiResult.Success("上传成功");
+                }
+                else
+                {
+                    return await ApiResult.Error("该功能块已经上传至其他分组");
+                }
+            }
+
         }
 
 
-        
         //private bool CheckExtensionName(string extensionName)
         //{
         //    bool pFlag = false;

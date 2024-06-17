@@ -34,7 +34,8 @@ namespace CommonUtility
             CreateMap<ControlsDto, TreeListDto>().ReverseMap();
             CreateMap<ResourceFuncsDto, ResourceFuncs>().ReverseMap();
             CreateMap<SegmentDeviceDto, SegmentDevice>().ReverseMap();
-            
+            CreateMap<InternalFbsDto, InternalFbs>().ReverseMap();
+            CreateMap<InternalFbsDto, TreeListDto>().ReverseMap();
         }
     }
 }

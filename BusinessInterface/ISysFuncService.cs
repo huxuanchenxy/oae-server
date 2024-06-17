@@ -1,4 +1,5 @@
-﻿using BusinessEntity.Sys;
+﻿using BusinessEntity;
+using BusinessEntity.Sys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace BusinessInterface
         bool ValidateModuleName(string name, int pid); 
         void DelModule(int id);
         bool Rename(string name, int id, int pid);
+        List<TreeListDto> GetModule(int projId);
     }
 }

@@ -41,6 +41,14 @@ namespace BusinessService
             }
         }
 
-       
+        public bool UpdateStatus(int id)
+        {
+            var iCount = _dbClient.Updateable<ResourceFuncs>()
+            .SetColumns(it => new ResourceFuncs() { Status = ConstantList.StautsDel })
+            .Where(x => x.Id == id).ExecuteCommand();
+            return iCount > 0;
+        }
+
+
     }
 }

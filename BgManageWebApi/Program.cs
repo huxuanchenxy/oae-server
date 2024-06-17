@@ -25,6 +25,9 @@ builder.Services.AddTransient<IControlsService, ControlsService>();
 builder.Services.AddTransient<IResourcesService, ResourcesService>();
 builder.Services.AddTransient<IResourceFuncsService, ResourceFuncsService>();
 builder.Services.AddTransient<ISegmentDeviceService, SegmentDeviceService>();
+builder.Services.AddTransient<IInternalFbsService, InternalFbsService>();
+
+
 var app = builder.Build();
  // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())

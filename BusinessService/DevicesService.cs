@@ -36,7 +36,7 @@ namespace BusinessService
 
         public bool ValidateName(string name, int pid)
         {
-            var pFlag = this.Query<Devices>(x => x.Name == name && x.ParentId == pid).Any();
+            var pFlag = this.Query<Devices>(x => x.Name == name && x.ParentId == pid && x.Status == ConstantList.StautsValid).Any();
             return !pFlag;
         }
 

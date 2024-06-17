@@ -12,5 +12,6 @@ namespace BusinessInterface
         List<ResourceFuncsDto> GetList();
 
         void Saves(ResourceFuncsDto req);
+        bool UpdateStatus(int id);
     }
 }
